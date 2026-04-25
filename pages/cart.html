@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Button Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 50px 20px;
+        }
+
+        /* ========== CART BUTTON STYLES ========== */
+        .cart-link {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+            z-index: 10000;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .cart-link:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.5);
+            background: linear-gradient(135deg, #ff5252 0%, #e64a19 100%);
+        }
+
+        .cart-link:active {
+            transform: translateY(-2px) scale(1);
+        }
+
+        .cart-icon {
+            font-size: 22px;
+            transition: transform 0.3s ease;
+        }
+
+        .cart-link:hover .cart-icon {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .cart-count {
+            background: rgba(255,255,255,0.9);
+            color: #ff6b6b;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 800;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            animation: bounce 0.6s ease;
+        }
+
+        .cart-count.show {
+            display: flex;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: scale(1); }
+            40% { transform: scale(1.2); }
+            60% { transform: scale(1.1); }
+        }
+
+        /* Demo Content */
+        .demo-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            color: white;
+            margin-top: 100px;
+        }
+
+        .demo-content h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- ========== CART BUTTON ========== -->
+    <a href="cart.html" class="cart-link" id="cartLink">
+        <span class="cart-icon">🛒</span>
+        Cart 
+        <span id="cartCount" class="cart-count">0</span>
+    </a>
+
+    <!-- Demo Content -->
+    <div class="demo-content">
+        <h1>Cart Button Demo</h1>
+        <p>Ye button kisi bhi page mein add kar sakte ho!</p>
+        <br><br>
+        <button onclick="addTestItems()" style="padding: 15px 30px; font-size: 18px; border-radius: 25px; border: none; background: rgba(255,255,255,0.2); color: white; cursor: pointer;">Add Test Items to Cart</button>
+    </div>
+
+    <script>
+        // ========== CART FUNCTIONALITY ==========
+        
+        // Load cart from localStorage
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Update cart counter
+        function updateCartCounter() {
+            const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            const cartCount = document.getElementById('cartCount');
+            
+            cartCount.textContent = totalItems;
+            
+            if (totalItems > 0) {
+                cartCount.classList.add('show');
+            } else {
+                cartCount.classList.remove('show');
+            }
+        }
+
+        // Test function to add items
+        function addTestItems() {
+            // Add sample items
+            const testItems = [
+                { id: 1, name: "Test Product 1", price: 29.99, quantity: 1 },
+                { id: 2, name: "Test Product 2", price: 49.99, quantity: 2 }
+            ];
+
+            testItems.forEach(item => {
+                const existing = cart.find(c => c.id === item.id);
+                if (existing) {
+                    existing.quantity += item.quantity;
+                } else {
+                    cart.push(item);
+                }
+            });
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCounter();
+            
+            // Success animation
+            const cartLink = document.getElementById('cartLink');
+            cartLink.style.background = 'linear-gradient(135deg, #4caf50 0%, #45a049 100%)';
+            setTimeout(() => {
+                cartLink.style.background = '';
+            }, 1000);
+        }
+
+        // Initialize
+        updateCartCounter();
+
+        // Listen for cart changes from other tabs/windows
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'cart') {
+                cart = JSON.parse(e.newValue) || [];
+                updateCartCounter();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Tech Store - Sign In</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .input-focus {
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+    
+    .floating {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+  </style>
+</head>
+
+<body class="gradient-bg min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+  
+  <!-- Animated Background Elements -->
+  <div class="absolute inset-0">
+    <div class="absolute top-20 left-20 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+    <div class="absolute top-40 right-20 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+    <div class="absolute -bottom-8 left-40 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+  </div>
+
+  <!-- Main Card -->
+  <div class="relative w-full max-w-md glass rounded-3xl p-10 shadow-2xl z-10">
+    
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <div class="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
+        <i class="fas fa-laptop-code text-2xl text-white"></i>
+      </div>
+      <h1 class="text-3xl font-bold text-white mb-2">CampusHub - Student Store</h1>
+      <p class="text-white/80 text-sm">Welcome back! Please sign in to your account</p>
+    </div>
+
+    <!-- Form -->
+    <form class="space-y-6">
+      <!-- Email -->
+      <div>
+        <label class="block text-sm font-semibold text-white/90 mb-2">Email Address</label>
+        <div class="relative">
+          <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-white/50"></i>
+          <input 
+            type="email" 
+            placeholder="Enter your email" 
+            class="w-full pl-12 pr-4 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-white/60 focus:outline-none focus:border-white/50 focus:glass input-focus transition-all duration-300"
+            required
+          >
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div>
+        <label class="block text-sm font-semibold text-white/90 mb-2">Password</label>
+        <div class="relative">
+          <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-white/50"></i>
+          <input 
+            type="password" 
+            placeholder="Enter your password" 
+            class="w-full pl-12 pr-4 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-white/60 focus:outline-none focus:border-white/50 focus:glass input-focus transition-all duration-300"
+            required
+          >
+          <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Options -->
+      <div class="flex justify-between items-center text-sm">
+        <label class="flex items-center text-white/80">
+          <input type="checkbox" class="w-4 h-4 bg-white/20 rounded border-white/30 text-blue-500 focus:ring-blue-500 mr-2">
+          <span>Remember me</span>
+        </label>
+        <a href="#" class="text-white/80 hover:text-white transition-colors font-semibold">Forgot Password?</a>
+      </div>
+
+      <!-- Sign In Button -->
+      <button 
+        type="submit"
+        class="btn-primary w-full py-4 rounded-2xl text-white font-semibold text-lg shadow-xl uppercase tracking-wide"
+      >
+        <i class="fas fa-sign-in-alt mr-2"></i>
+        Sign In
+      </button>
+    </form>
+
+    <!-- Divider -->
+    <div class="relative my-8">
+      <div class="absolute inset-0 flex items-center">
+        <div class="w-full border-t border-white/20"></div>
+      </div>
+      <div class="relative flex justify-center text-sm">
+        <span class="px-4 bg-white/10 backdrop-blur-sm text-white/80 rounded-full py-1">Or continue with</span>
+      </div>
+    </div>
+
+    <!-- Social Buttons -->
+    <div class="grid grid-cols-2 gap-4">
+      <button class="flex items-center justify-center gap-3 py-3 px-6 border border-white/20 bg-white/10 backdrop-blur-sm rounded-2xl text-white hover:bg-white/20 transition-all duration-300">
+        <i class="fab fa-google text-xl"></i>
+        <span>Google</span>
+      </button>
+      <button class="flex items-center justify-center gap-3 py-3 px-6 border border-white/20 bg-white/10 backdrop-blur-sm rounded-2xl text-white hover:bg-white/20 transition-all duration-300">
+        <i class="fab fa-apple text-xl"></i>
+        <span>Apple</span>
+      </button>
+    </div>
+
+    <!-- Sign Up Link -->
+    <p class="text-center mt-8 text-white/80 text-sm">
+      Don't have an account? 
+      <a href="signup.html" class="font-semibold text-white hover:text-blue-200 transition-colors">Create one here</a>
+    </p>
+  </div>
+
+  <script>
+    // Add floating animation classes
+    const blobs = document.querySelectorAll('.animate-blob');
+    blobs.forEach((blob, index) => {
+      blob.style.animationDelay = `${index * 2000}ms`;
+    });
+
+    // Password toggle
+    const passwordInput = document.querySelector('input[type="password"]');
+    const toggleBtn = document.querySelector('.fa-eye').parentElement;
+    toggleBtn.addEventListener('click', () => {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      toggleBtn.querySelector('i').classList.toggle('fa-eye');
+      toggleBtn.querySelector('i').classList.toggle('fa-eye-slash');
+    });
+  </script>
+</body>
+</html>

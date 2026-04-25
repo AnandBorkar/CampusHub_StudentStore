@@ -1,0 +1,497 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> CampusHub - Student Store</title>
+        <script src="https://cdn.tailwindcss.com "></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --accent: #dc2626;
+            --success: #16a34a;
+            --dark: #1f2937;
+            --light: #f8fafc;
+            --gray: #6b7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--light);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .search-box {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 25px;
+            width: 300px;
+            font-size: 1rem;
+        }
+
+        .cart-icon {
+            position: relative;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .cart-icon:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Hero Product */
+        .hero-product {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        .hero-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-price {
+            font-size: 2rem;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--success);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .old-price {
+            font-size: 1rem;
+            color: var(--gray);
+            text-decoration: line-through;
+            margin-left: 8px;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .stars {
+            color: #fbbf24;
+            font-size: 0.9rem;
+        }
+
+        .category-tag {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-product {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .filters {
+                justify-content: center;
+            }
+
+            .search-box {
+                width: 100%;
+                max-width: 250px;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: flex;
+            justify-content: center;
+            padding: 4rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="bg-blue-600 text-white p-4 flex justify-between items-center">
+  <h1 class="text-xl font-bold">CampusHub - Student Store</h1>
+
+  <ul class="flex gap-6 items-center">
+    <li><a href="#index">Home</a></li>
+    <li><a href="#product">Shop</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#login" hreflang="#Signup">Login</a></li>
+    <li><a href="#Signup">Sign Up</a></li>
+
+
+    <li class="bg-white text-blue-600 px-3 py-1 rounded">
+      
+      <a href="cart.html">Cart
+      (<span id="cartCount">0</span>)</a>
+    </li>
+  </ul>
+</nav>
+
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-laptop-code"></i> CampusHub - Student Store
+                </div>
+                <div class="header-actions">
+                        <input type="text" id="searchBox" class="search-box" placeholder="🔍 Search products...">
+                    <div class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span style="position: absolute; top: -8px; right: -8px; background: var(--accent); color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 0.8rem; display: flex; align-items: center; justify-content: center;">5</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Hero Product -->
+        <section class="hero-product">
+            <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Gaming Laptop" class="hero-image">
+            <div class="hero-content">
+                <h2><i class="fas fa-fire"></i> 🔥 TOP PICK</h2>
+                <h2>Gaming Laptop RTX 4060</h2>
+                <div class="hero-price">$1,299 <span style="font-size: 1.2rem; color: var(--gray); text-decoration: line-through;">$1,799</span></div>
+                <button style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none; padding: 1rem 2rem; border-radius: 25px; font-size: 1.1rem; cursor: pointer; margin-top: 1rem;">
+                    🛒 Add to Cart
+                </button>
+            </div>
+        </section>
+
+        <!-- Filters -->
+        <div class="filters">
+            <button class="filter-btn active" data-category="all">All Products (58)</button>
+            <button class="filter-btn" data-category="laptops">Laptops (15)</button>
+            <button class="filter-btn" data-category="headphones">Headphones (12)</button>
+            <button class="filter-btn" data-category="study">Study Essentials (18)</button>
+            <button class="filter-btn" data-category="accessories">Accessories (13)</button>
+            <button class="filter-btn" data-category="gaming">Gaming (10)</button>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="productsGrid">
+            <!-- 50+ Products will be loaded here by JavaScript -->
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 50+ Tech & Student Products Data
+        const products = [
+            // LAPTOPS (15)
+            { id: 1, name: "Gaming Laptop RTX 4060", price: 1299, oldPrice: 1799, image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=300", category: "laptops", rating: 4.9, badge: "Bestseller", tag: "Gaming" button: "Buy Now" , buttonLink: "https://www.example.com/gaming-laptop-rtx4060" , button:"add to card", buttonLink:"https://www.example.com/gaming-laptop-rtx4060" },
+            { id: 2, name: "MacBook Air M2 16GB", price: 1199, oldPrice: 1499, image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=300", category: "laptops", rating: 4.8, badge: "Student", tag: "Apple" button: "Buy Now" , buttonLink: "https://www.apple.com/macbook-air-m2" , button:"add to card", buttonLink:"https://www.apple.com/macbook-air-m2"  },
+            { id: 3, name: "Dell XPS 13 UltraBook", price: 999, oldPrice: 1299, image: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=300", category: "laptops", rating: 4.7, tag: "Premium" button: "Buy Now" , buttonLink: "https://www.dell.com/en-us/shop/dell-laptops/xps-13-ultrabook/spd/xps-13-9310-laptop" , button:"add to card", buttonLink:"https://www.dell.com/en-us/shop/dell-laptops/xps-13-ultrabook/spd/xps-13-9310-laptop" },
+            { id: 4, name: "Lenovo ThinkPad Student", price: 799, oldPrice: 999, image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=300", category: "laptops", rating: 4.6, badge: "Student", tag: "Business" button: "Buy Now" , buttonLink: "https://www.lenovo.com/us/en/laptops/thinkpad/thinkpad-x1-carbon-gen-9/p/20XWCTO1WWENUS0" , button:"add to card", buttonLink:"https://www.lenovo.com/us/en/laptops/thinkpad/thinkpad-x1-carbon-gen-9/p/20XWCTO1WWENUS0" },
+            { id: 5, name: "ASUS ROG Strix Gaming", price: 1499, oldPrice: 1999, image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=300", category: "laptops", rating: 4.9, tag: "Gaming" button: "Buy Now" , buttonLink: "https://www.asus.com/gaming-laptops/rog-strix-gaming-laptop" , button:"add to card", buttonLink:"https://www.asus.com/gaming-laptops/rog-strix-gaming-laptop" },
+            { id: 6, name: "HP Pavilion 15 Study", price: 649, oldPrice: 849, image: "https://images.unsplash.com/photo-1580894908361-9679e922f6e3?w=300", category: "laptops", rating: 4.5, badge: "Student", tag: "Budget" button: "Buy Now" , buttonLink: "https://www.hp.com/us-en/shop/pdp/hp-pavilion-15-laptop-2c0n6av-1" , button:"add to card", buttonLink:"https://www.hp.com/us-en/shop/pdp/hp-pavilion-15-laptop-2c0n6av-1" },
+            { id: 7, name: "Surface Laptop 5", price: 1099, oldPrice: 1399, image: "https://images.unsplash.com/photo-1580894908361-9679e922f6e3?w=300", category: "laptops", rating: 4.7, tag: "Microsoft" button: "Buy Now" , buttonLink: "https://www.microsoft.com/en-us/p/surface-laptop-5/8p3xq8d5jz9v" , button:"add to card", buttonLink:"https://www.microsoft.com/en-us/p/surface-laptop-5/8p3xq8d5jz9v" },
+            { id: 8, name: "Acer Nitro 5 Gaming", price: 899, oldPrice: 1199, image: "https://images.unsplash.com/photo-1611952373935-f7c92600a492?w=300", category: "laptops", rating: 4.6, tag: "Gaming" button: "Buy Now" , buttonLink: "https://www.acer.com/us-en/laptops/nitro/nitro-5" , button:"add to card", buttonLink:"https://www.acer.com/us-en/laptops/nitro/nitro-5" },
+            { id: 9, name: "Chromebook Student Pro", price: 399, oldPrice: 499, image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=300", category: "laptops", rating: 4.4, badge: "Student", tag: "Budget" button: "Buy Now" , buttonLink: "https://www.google.com/chromebook/student-pro" , button:"add to card", buttonLink:"https://www.google.com/chromebook/student-pro" },
+            { id: 12, name: "Samsung Galaxy Book", price: 949, oldPrice: 1149, image: "https://images.unsplash.com/photo-1610945262588-8ca4f71f8a75?w=300", category: "laptops", rating: 4.6, tag: "Samsung" button: "Buy Now" , buttonLink: "https://www.samsung.com/us/computing/windows-laptops/galaxy-book-pro-360-15-6-inch-np950qed-x01us/" , button:"add to card", buttonLink:"https://www.samsung.com/us/computing/windows-laptops/galaxy-book-pro-360-15-6-inch-np950qed-x01us/" },
+            { id: 13, name: "Framework Laptop", price: 1099, oldPrice: 1299, image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300", category: "laptops", rating: 4.7, tag: "Modular" button: "Buy Now" , buttonLink: "https://www.framework.com/laptops" , button:"add to card", buttonLink:"https://www.framework.com/laptops" },
+            { id: 14, name: "Alienware m16", price: 1999, oldPrice: 2499, image: "https://images.unsplash.com/photo-1542393545-20b18a60da68?w=300", category: "laptops", rating: 4.9, tag: "Gaming" button: "Buy Now" , buttonLink: "https://www.dell.com/en-us/shop/dell-laptops/alienware-m16/spd/alienware-m16" , button:"add to card", buttonLink:"https://www.dell.com/en-us/shop/dell-laptops/alienware-m16/spd/alienware-m16" },
+            { id: 15, name: "StudyBook UltraLight", price: 549, oldPrice: 699, image: "https://images.unsplash.com/photo-1547658719-da2b848c1ad4?w=300", category: "laptops", rating: 4.5, badge: "Student", tag: "Lightweight" button: "Buy Now" , buttonLink: "https://www.example.com/studybook-ultralight" , button:"add to card", buttonLink:"https://www.example.com/studybook-ultralight" },
+
+            // HEADPHONES (12)
+            { id: 16, name: "Sony WH-1000XM5 ANC", price: 349, oldPrice: 399, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300", category: "headphones", rating: 4.9, badge: "Top Rated", tag: "Wireless" button: "Buy Now" , buttonLink: "https://www.sony.com/electronics/headband-headphones/wh-1000xm5" , button:"add to card", buttonLink:"https://www.sony.com/electronics/headband-headphones/wh-1000xm5" },
+            { id: 17, name: "AirPods Pro 2", price: 249, oldPrice: 279, image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=300", category: "headphones", rating: 4.8, tag: "Apple" button: "Buy Now" , buttonLink: "https://www.apple.com/airpods-pro-2nd-generation" , button:"add to card", buttonLink:"https://www.apple.com/airpods-pro-2nd-generation" },
+            { id: 18, name: "Bose QuietComfort 45", price: 299, oldPrice: 349, image: "https://images.unsplash.com/photo-1614007848330-7a8a7b2a67f0?w=300", category: "headphones", rating: 4.8, badge: "ANC", tag: "Premium" button: "Buy Now" , buttonLink: "https://www.bose.com/en_us/products/headphones/over_ear_headphones/quietcomfort-45.html" , button:"add to card", buttonLink:"https://www.bose.com/en_us/products/headphones/over_ear_headphones/quietcomfort-45.html" },
+            { id: 19, name: "StudentPods Wireless", price: 49, oldPrice: 79, image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=300", category: "headphones", rating: 4.4, badge: "Student", tag: "Budget" button: "Buy Now" , buttonLink: "https://www.example.com/studentpods-wireless" , button:"add to card", buttonLink:"https://www.example.com/studentpods-wireless" },
+            { id: 20, name: "JBL Tune 760NC", price: 129, oldPrice: 169, image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300", category: "headphones", rating: 4.6, tag: "Bass" button: "Buy Now" , buttonLink: "https://www.jbl.com/tune-760nc.html" , button:"add to card", buttonLink:"https://www.jbl.com/tune-760nc.html" },
+            { id: 21, name: "Razer BlackShark V2", price: 99, oldPrice: 129, image: "https://images.unsplash.com/photo-1606138543068-1f44f9e6a8db?w=300", category: "headphones", rating: 4.7, tag: "Gaming" button: "Buy Now" , buttonLink: "https://www.razer.com/gaming-headsets/razer-blackshark-v2" , button:"add to card", buttonLink:"https://www.razer.com/gaming-headsets/razer-blackshark-v2" },
+            { id: 22, name: "Sennheiser HD 450BT", price: 149, oldPrice: 199, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300", category: "headphones", rating: 4.7, tag: "Audio" button: "Buy Now" , buttonLink: "https://en-us.sennheiser.com/bluetooth-headphones-hd-450bt" , button:"add to card", buttonLink:"https://en-us.sennheiser.com/bluetooth-headphones-hd-450bt" },
+            { id: 23, name: "Beats Solo Pro", price: 199, oldPrice: 249, image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=300", category: "headphones", rating: 4.6, tag: "Style" button: "Buy Now" , buttonLink: "https://www.beatsbydre.com/headphones/solo-pro" , button:"add to card", buttonLink:"https://www.beatsbydre.com/headphones/solo-pro" },
+            { id: 24, name: "Anker Soundcore Life Q30", price: 79, oldPrice: 129, image: "https://images.unsplash.com/photo-1580894908361-9679e922f6e3?w=300", category: "headphones", rating: 4.5, badge: "Budget", tag: "Wireless" button : "Buy Now" , buttonLink: "https://www.soundcore.com/products/variant/life-q30-anc-bluetooth-headphones/A3025011" , button:"add to card", buttonLink:"https://www.soundcore.com/products/variant/life-q30-anc-bluetooth-headphones/A3025011" },
+            { id: 25, name: "Audio-Technica ATH-M50x", price: 149, oldPrice: 199, image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=300", category: "headphones", rating: 4.8, tag: "Studio" button: "Buy Now" , buttonLink: "https://www.audio-technica.com/en-us/ath-m50x" , button:"add to card", buttonLink:"https://www.audio-technica.com/en-us/ath-m50x" },
+            { id: 26, name: "Logitech G Pro X Gaming", price: 129, oldPrice: 179, image: "https://images.unsplash.com/photo-1611952373935-f7c92600a492?w=300", category: "headphones", rating: 4.7, tag: "Gaming"button: "Buy Now" , buttonLink: "https://www.logitechg.com/en-us/products/gaming-audio/pro-x-gaming-headset.html" , button:"add to card", buttonLink:"https://www.logitechg.com/en-us/products/gaming-audio/pro-x-gaming-headset.html" },
+            { id: 27, name: "Skullcandy Crusher Evo", price: 199, oldPrice: 249, image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=300", category: "headphones", rating: 4.6, tag: "Bass" button: "Buy Now" , buttonLink: "https://www.skullcandy.com/shop/crusher-evo" , button:"add to card", buttonLink:"https://www.skullcandy.com/shop/crusher-evo" },
+
+            // STUDY ESSENTIALS (18)
+            { id: 28, name: "Moleskine Classic Notebook", price: 19, oldPrice: 29, image: "https://images.unsplash.com/photo-1547658719-da2b848c1ad4?w=300", category: "study", rating: 4.8, badge: "Bestseller", tag: "Notebooks" button: "Buy Now" , buttonLink: "https://www.moleskine.com/en-us/classic-notebook" , button:"add to card", buttonLink:"https://www.moleskine.com/en-us/classic-notebook" },
+            { id: 29, name: "Lamy Safari Fountain Pen", price: 39, oldPrice: 49, image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=300", category: "study", rating: 4.7, tag: "Writing" button: "Buy Now" , buttonLink: "https://www.lamy.com/en-us/safari-fountain-pen" , button:"add to card", buttonLink:"https://www.lamy.com/en-us/safari-fountain-pen" },
+            { id: 30, name: "Post-it Super Sticky Notes", price: 9, oldPrice: 14, image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=300", category: "study", rating: 4.6, badge: "Student", tag: "Stationery" button: "Buy Now" , buttonLink: "https://www.post-it.com/3M/en_US/post-it/products/~/Post-it-Super-Sticky-Notes-3-in-x-3-in-100-Sheets-Pack/?N=5924736+3294529207&rt=rud" , button:"add to card", buttonLink:"https://www.post-it.com/3M/en_US/post-it/products/~/Post-it-Super-Sticky-Notes-3-in-x-3-in-100-Sheets-Pack/?N=5924736+3294529207&rt=rud" },
+            { id: 31, name: "Fujitsu ScanSnap iX1500", price: 499, oldPrice: 599, image: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=300", category: "study", rating: 4.8, tag: "Tech" button: "Buy Now" , buttonLink: "https://www.fujitsu.com/global/products/computing/peripheral/scanners/scansnap/ix1500/" , button:"add to card", buttonLink:"https://www.fujitsu.com/global/products/computing/peripheral/scanners/scansnap/ix1500/" },
+            { id: 32, name: "Ergonomic Study Chair", price: 199, oldPrice: 299, image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=300", category: "study", rating: 4.7, tag: "Furniture" button: "Buy Now" , buttonLink: "https://www.example.com/ergonomic-study-chair" , button:"add to card", buttonLink:"https://www.example.com/ergonomic-study-chair" },
+            { id: 33, name: "LED Desk Lamp with USB", price: 49, oldPrice: 69, image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=300", category: "study", rating: 4.6, tag: "Lighting" button: "Buy Now" , buttonLink: "https://www.example.com/led-desk-lamp-usb" , button:"add to card", buttonLink:"https://www.example.com/led-desk-lamp-usb" },
+            { id: 34, name: "Noise-Canceling Study Headphones", price: 129, oldPrice: 179, image: "https://images.unsplash.com/photo-1580894908361-9679e922f6e3?w=300", category: "study", rating: 4.7, tag: "Audio" button: "Buy Now" , buttonLink: "https://www.example.com/noise-canceling-study-headphones" , button:"add to card", buttonLink:"https://www.example.com/noise-canceling-study-headphones" },
+            { id: 35, name: "Whiteboard Study Planner", price: 29, oldPrice: 39, image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=300", category: "study", rating: 4.5, badge: "Student", tag: "Organization" button: "Buy Now" , buttonLink: "https://www.example.com/whiteboard-study-planner" , button:"add to card", buttonLink:"https://www.example.com/whiteboard-study-planner" },
+            { id: 36, name: "Study Timer Pomodoro Clock", price: 19, oldPrice: 29, image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=300", category: "study", rating: 4.6, tag: "Productivity" button: "Buy Now" , buttonLink: "https://www.example.com/study-timer-pomodoro-clock" , button:"add to card", buttonLink:"https://www.example.com/study-timer-pomodoro-clock" },
+            { id: 37, name: "Blue Light Blocking Glasses", price: 39, oldPrice: 59, image: "https://images.unsplash.com/photo-1611952373935-f7c92600a492?w=300", category: "study", rating: 4.7, tag: "Health" button: "Buy Now" , buttonLink: "https://www.example.com/blue-light-blocking-glasses" , button:"add to card", buttonLink:"https://www.example.com/blue-light-blocking-glasses"    },
+            { id: 38, name: "Adjustable Laptop Stand", price: 49, oldPrice: 69, image: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=300", category: "study", rating: 4.8, tag: "Ergonomics" button: "Buy Now" , buttonLink: "https://www.example.com/adjustable-laptop-stand" , button:"add to card", buttonLink:"https://www.example.com/adjustable-laptop-stand"  },
+            { id: 39, name: "Study Desk Organizer Set", price: 29, oldPrice: 39, image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=300", category: "study", rating: 4.5, badge: "Student", tag: "Organization" button: "Buy Now" , buttonLink: "https://www.example.com/study-desk-organizer-set" , button:"add to card", buttonLink:"https://www.example.com/study-desk-organizer-set" },
+            { id: 40, name: "Wireless Charging Desk Mat", price: 59, oldPrice: 89, image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=300", category: "study", rating: 4.6, tag: "Tech" button: "Buy Now" , buttonLink: "https://www.example.com/wireless-charging-desk-mat" , button:"add to card", buttonLink:"https://www.example.com/wireless-charging-desk-mat" },
+            { id: 41, name: "Ergonomic Foot Rest for Study", price: 39, oldPrice: 59, image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=300", category: "study", rating: 4.7, tag: "Comfort" button: "Buy Now" , buttonLink: "https://www.example.com/ergonomic-foot-rest-study" , button:"add to card", buttonLink:"https://www.example.com/ergonomic-foot-rest-study" },
+            { id: 42, name: "Study Focus Essential Oil", price: 19, oldPrice: 29, image: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=300", category: "study", rating: 4.5, badge: "Student", tag: "Aromatherapy" button: "Buy Now" , buttonLink: "https://www.example.com/study-focus-essential-oil" , button:"add to card", buttonLink:"https://www.example.com/study-focus-essential-oil" },
+            { id: 43, name: "Digital Note-Taking Tablet", price: 199, oldPrice: 299, image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=300", category: "study", rating: 4.8, tag: "Tech" button: "Buy Now" , buttonLink: "https://www.example.com/digital-note-taking-tablet" , button:"add to card", buttonLink:"https://www.example.com/digital-note-taking-tablet" },
+            { id: 44, name: "Ergonomic Study Desk", price: 299, oldPrice: 399, image: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=300", category: "study", rating: 4.7, tag: "Furniture" button: "Buy Now" , buttonLink: "https://www.example.com/ergonomic-study-desk" , button:"add to card", buttonLink:"https://www.example.com/ergonomic-study-desk" },
+            { id: 45, name: "Study Aid Flashcards Set", price: 29, oldPrice: 39, image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=300", category: "study", rating: 4.6, badge: "Student", tag: "Learning" button: "Buy Now" , buttonLink: "https://www.example.com/study-aid-flashcards" , button:"add to card", buttonLink:"https://www.example.com/study-aid-flashcards" },
+            { id: 46, name: "Wireless Bluetooth Study Speaker", price: 79, oldPrice: 119, image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=300", category: "study", rating: 4.7, tag: "Audio" button: "Buy Now" , buttonLink: "https://www.example.com/wireless-bluetooth-study-speaker" , button:"add to card", buttonLink:"https://www.example.com/wireless-bluetooth-study-speaker" },
+            { id: 47, name: "Ergonomic Study Chair with Lumbar Support", price: 249, oldPrice: 349, image: "https://images.unsplash.com/photo-1580894908361-9679e922f6e3?w=300", category: "study", rating: 4.8, tag: "Comfort" button: "Buy Now" , buttonLink: "https://www.example.com/ergonomic-study-chair-lumbar-support" , button:"add to card", buttonLink:"https://www.example.com/ergonomic-study-chair-lumbar-support" },      
+            // ACCESSORIES (13)
+            { id: 48, name: "USB-C Hub Multiport Adapter", price: 49, oldPrice: 69, image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=300", category: "accessories", rating: 4.7, tag: "Tech" button: "Buy Now" , buttonLink: "https://www.example.com/usb-c-hub-multiport-adapter" , button:"add to card", buttonLink:"https://www.example.com/usb-c-hub-multiport-adapter" },
+            { id: 49, name: "Portable External SSD 1TB", price: 149, oldPrice: 199, image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=300", category: "accessories", rating: 4.8, tag: "Storage" button: "Buy Now" , buttonLink: "https://www.example.com/portable-external-ssd-1tb" , button:"add to card", buttonLink:"https://www.example.com/portable-external-ssd-1tb" },
+            { id: 50, name: "Wireless Mouse Ergonomic", price: 29, oldPrice: 49, image: "https://images.unsplash.com/photo-1611952373935-f7c92600a492?w=300", category: "accessories", rating: 4.6, tag: "Peripherals" button: "Buy Now" , buttonLink: "https://www.example.com/wireless-mouse-ergonomic" , button:"add to card", buttonLink:"https://www.example.com/wireless-mouse-ergonomic" },
+            { id: 51, name: "Laptop Cooling Pad with Fans", price: 39, oldPrice: 59, image: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=300", category: "accessories", rating: 4.5, tag: "Cooling" button: "Buy Now" , buttonLink: "https://www.example.com/laptop-cooling-pad" , button:"add to card", buttonLink:"https://www.example.com/laptop-cooling-pad" },
+            { id: 52, name: "Bluetooth Keyboard Compact", price: 49, oldPrice: 69, image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=300", category: "accessories", rating: 4.7, tag: "Peripherals" button: "Buy Now" , buttonLink: "https://www.example.com/bluetooth-keyboard-compact" , button:"add to card", buttonLink:"https://www.example.com/bluetooth-keyboard-compact" },
+            { id: 53, name: "USB-C to HDMI Adapter", price: 19, oldPrice: 29, image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=300", category: "accessories", rating: 4.6, tag: "Tech" button: "Buy Now" , buttonLink: "https://www.example.com/usb-c-to-hdmi-adapter" , button:"add to card", buttonLink:"https://www.example.com/usb-c-to-hdmi-adapter" },
+            { id: 54, name: "Laptop Privacy Screen Filter", price: 39, oldPrice: 59, image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=300", category: "accessories", rating: 4.5, tag: "Privacy" button: "Buy Now" , buttonLink: "https://www.example.com/laptop-privacy-screen-filter" , button:"add to card", buttonLink:"https://www.example.com/laptop-privacy-screen-filter" },
+            { id: 55, name: "Portable Laptop Stand Foldable", price: 29, oldPrice: 49, image: "https://images.unsplash.com/photo-1580894908361-9679e922f6e3?w=300", category: "accessories", rating: 4.7, tag: "Ergonomics" button: "Buy Now" , buttonLink: "https://www.example.com/portable-laptop-stand-foldable" , button:"add to card", buttonLink:"https://www.example.com/portable-laptop-stand-foldable" },
+            { id: 56, name: "Wireless Charging Pad for Desk", price: 39, oldPrice: 59, image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=300", category: "accessories", rating: 4.6, tag: "Tech"
+             button: "Buy Now" , buttonLink: "https://www.example.com/wireless-charging-pad-desk" , button:"add to card", buttonLink:"https://www.example.com/wireless-charging-pad-desk" },
+            { id: 57, name: "Laptop Sleeve Protective Case", price: 29, oldPrice: 49, image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=300", category: "accessories", rating: 4.5, tag: "Protection" button: "Buy Now" , buttonLink: "https://www.example.com/laptop-sleeve-protective-case" , button:"add to card", buttonLink:"https://www.example.com/laptop-sleeve-protective-case" },
+            { id: 58, name: "USB-C Power Bank Portable", price: 49, oldPrice: 69, image: "https://images.unsplash.com/photo-1611952373935-f7c92600a492?w=300", category: "accessories", rating: 4.7, tag: "Power" button: "Buy Now" , buttonLink: "https://www.example.com/usb-c-power-bank-portable" , button:"add to card", buttonLink:"https://www.example.com/usb-c-power-bank-portable" },
+            { id: 59, name: "Laptop Docking Station USB-C", price: 149, oldPrice: 199, image: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=300", category: "accessories", rating: 4.8, tag: "Tech" button: "Buy Now" , buttonLink: "https://www.example.com/laptop-docking-station-usb-c" , button:"add to card", buttonLink:"https://www.example.com/laptop-docking-station-usb-c" },
+            { id: 60, name: "Wireless Presenter Remote", price: 29, oldPrice: 49, image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=300", category: "accessories", rating: 4.6, tag: "Presentation" button: "Buy Now" , buttonLink: "https://www.example.com/wireless-presenter-remote" , button:"add to card", buttonLink:"https://www.example.com/wireless-presenter-remote" },
+        ];
+
+
+
+
+
+        const productsGrid = document.getElementById("productsGrid");
+        const searchBox = document.getElementById("searchBox");
+
+let currentCategory = "all";
+
+// DISPLAY PRODUCTS
+function displayProducts(list) {
+    productsGrid.innerHTML = "";
+
+    if (list.length === 0) {
+        productsGrid.innerHTML = "<h2>No products found 😢</h2>";
+        return;
+    }
+
+    list.forEach(product => {
+        const div = document.createElement("div");
+        div.classList.add("product-card");
+
+        div.innerHTML = `
+            <img src="${product.image}" class="product-image">
+            <h3>${product.name}</h3>
+            <p>₹${product.price}</p>
+        `;
+
+        productsGrid.appendChild(div);
+    });
+}
+
+// FILTER LOGIC
+function filterProducts() {
+    let value = searchBox.value.toLowerCase();
+
+    let filtered = products.filter(p => {
+        let matchCategory = currentCategory === "all" || p.category === currentCategory;
+        let matchSearch = p.name.toLowerCase().includes(value);
+
+        return matchCategory && matchSearch;
+    });
+
+    displayProducts(filtered);
+}
+
+// SEARCH EVENT
+searchBox.addEventListener("input", filterProducts);
+
+// CATEGORY BUTTONS
+document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        currentCategory = btn.dataset.category;
+
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("bg-blue-600","text-white"));
+        btn.classList.add("bg-blue-600","text-white");
+
+        filterProducts();
+    });
+});
+
+// INITIAL LOAD
+displayProducts(products);
+
+    </script>
+</body> 
+</html>
